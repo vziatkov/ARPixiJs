@@ -1,0 +1,45 @@
+{
+  "name": "testtask",
+  "version": "0.1.0",
+  "description": "Test assigment",
+  "author": "Vitalii Ziatkov",
+  "license": "",
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?)$",
+    "moduleFileExtensions": [
+      "js"
+    ]
+  },
+  "dependencies": {
+    "express": "^4.16.3",
+    "html-webpack-plugin": "^2.30.1",
+    "whatwg-fetch": "^2.0.4",
+    "webpack": "^3.5.0",
+    "webpack-dev-middleware": "^1.10.0",
+    "webpack-hot-middleware": "^2.16.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^22.2.2",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-config-airbnb-base": "^11.2.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.9.0",
+    "jest": "^22.4.3",
+    "ts-jest": "^22.4.2",
+    "ts-loader": "^3.5.0",
+    "typescript": "^2.8.1"
+  },
+  "scripts": {
+    "build:development": "webpack --config ./config/webpack.config.js --env=development --progress --profile --colors",
+    "build:production": "webpack --config ./config/webpack-production.config.js --env=production --progress --profile --colors",
+    "lint": "eslint ./{server,app,config}/**/*{config,''}.js",
+    "postinstall": "npm run build:production",
+    "start": "node server",
+    "test": "jest"
+  }
+}

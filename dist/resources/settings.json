@@ -1,0 +1,15 @@
+{
+  "_comment": "can specify slotWidth and slotHeight",
+  "countReels": 3,
+  "durationRotation": 5000,
+  "reelAnimationSymbols": [[0,1,2,3,4,5], [0,1,2,3,4,5], [0,1,2,3,4,5]],
+  "reelMaxHeight": 0.6,
+  "reelTopOffset": 0.2,
+  "reelSymbols": ["Symbol_0.png", "Symbol_1.png", "Symbol_2.png", "Symbol_3.png", "Symbol_4.png", "Symbol_5.png"],
+  "speedAnimation": 50,
+  "spinButtonImage": "button.png",
+  "spinButtonMaxHeight": 0.2,
+  "spinButtonTopOffset": 0.8,
+  "winMessageTopOffset": 0,
+  "winMessageMaxHeight": 0.15
+}
