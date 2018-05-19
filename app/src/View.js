@@ -6,8 +6,8 @@ const preload = document.getElementById("preload");
 const ctx = scene ? scene.getContext("2d") : {};
 
 export const preloading = (isPreload) => {
-    scene.style.display = isPreload ? "none" : "block";
-    preload.style.display = isPreload ? "block" : "none";
+    scene.style.display = "none";
+    preload.style.display = "none";
 };
 
 export const displayScene = (gameState) => {
@@ -115,6 +115,11 @@ const onClickHandler = (e) => {
         drawGameWin(state());
     }
 };
+
+const t = setInterval( () => {
+    applyGameStage(GameStages.ANIMATING);
+    updateClickListener(false);
+    drawGameWin(state());}, 3000);
 
 const isOverButton = (e, spinButton) => (e.layerX > spinButton.leftOffset
     && e.layerX < spinButton.leftOffset + spinButton.displayWidth

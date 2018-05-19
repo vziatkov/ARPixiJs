@@ -13,6 +13,11 @@ import {
     applyCallBackRoundEnd,
 } from "./State";
 
+import { PixiApp } from "./augmentedReality/PixiApp";
+import { createMarkerDetector, setupMarkerDetector } from "./augmentedReality/MarkerDetector";
+import { createVideo } from "./augmentedReality/Video";
+
+
 const logError = (error, details = "") => {
     // eslint-disable-next-line no-console
     console.log(error);
@@ -37,6 +42,12 @@ const setupGame = async () => {
     displayScene(state());
     drawSpinButton(state());
     drawReels(state());
+    const video = await createVideo(state().configState.slotWidth, state().configState.slotHeight);
+    const pixiApp = new PixiApp(state().configState.slotWidth, state().configState.slotHeight, true);
+    await createMarkerDetector(state().configState.slotWidth, state().configState.slotHeight, 'resources/camera_para.dat')
+        .then((markerDetector) => {
+        setupMarkerDetector(markerDetector, pixiApp, video, "./resources/marker32.pat");
+    });
     preloading(false);
     applyCallBackRedrawReels(drawReels);
     applyCallBackRoundEnd(roundEnd);
