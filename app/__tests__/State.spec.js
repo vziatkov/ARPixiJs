@@ -5,14 +5,14 @@ describe("GameState", () => {
     });
     it("state should have default values", () => {
         // eslint-disable-next-line global-require
-        const { state } = require("../src/State");
+        const { state } = require("../src/gameSlot/State");
         Object.entries(state()).forEach((item) => {
             expect(item[1]).toBeDefined();
         });
     });
     it("extenral config should be applyed", () => {
         // eslint-disable-next-line global-require
-        const { applyLoadedSettings, state } = require("../src/State");
+        const { applyLoadedSettings, state } = require("../src/gameSlot/State");
         const expectSettings = {
             countReels: 2,
             durationRotation: 1,
@@ -34,7 +34,7 @@ describe("GameState", () => {
     });
     it("reels should have correct calculated display state", () => {
         // eslint-disable-next-line global-require
-        const { state, applySlotSizeState } = require("../src/State");
+        const { state, applySlotSizeState } = require("../src/gameSlot/State");
         applySlotSizeState();
         const { reelDisplayHeight, reelDisplayTopOffset, slotDisplayHeight } = state().displayState;
         const totalHeight = reelDisplayHeight + reelDisplayTopOffset;

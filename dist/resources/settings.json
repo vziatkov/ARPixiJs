@@ -11,5 +11,6 @@
   "spinButtonMaxHeight": 0.2,
   "spinButtonTopOffset": 0.8,
   "winMessageTopOffset": 0,
-  "winMessageMaxHeight": 0.15
+  "winMessageMaxHeight": 0.15,
+  "isAugmentedReality": true
 }

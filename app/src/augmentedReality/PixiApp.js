@@ -1,6 +1,7 @@
-import * as PIXI from "../../../node_modules/pixi.js/dist/pixi";
-import * as a from "../../../node_modules/pixi-projection/dist/pixi-projection";
+import * as PIXI from "PIXIJS";
+import * as a from "PIXIProjection";
 const b = a;
+
 export class PixiApp{
     private app;
     private squares = [];
@@ -104,10 +105,6 @@ export class PixiApp{
     }
 
 // === INTERACTION CODE  ===
-
-    private toggle(obj) {
-        console.log("toggle");
-    }
 
     private snap(obj) {
         obj.position.set(Math.min(Math.max(obj.position.x, 0), this.app.screen.width),

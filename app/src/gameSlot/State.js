@@ -27,6 +27,7 @@ const defaultState = {
             spinButtonImage: "button.png",
             winMessageTopOffset: 0,
             winMessageMaxHeight: 0.2,
+            isAugmentedReality: true,
         },
         displayState: {
             reelDisplayHeight: 0,

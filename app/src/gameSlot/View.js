@@ -1,13 +1,22 @@
 import { state, applyGameStage, GameStages } from "./State";
 import { smoothOriginalImage } from "./Utils";
+import * as style from "./Views.css";
+// TODO investigate why doesn't work
+console.log(style);
 
 const scene = document.getElementById("slots");
 const preload = document.getElementById("preload");
+const userVideo = document.getElementById("userVideo");
 const ctx = scene ? scene.getContext("2d") : {};
 
-export const preloading = (isPreload) => {
-    scene.style.display = "none";
-    preload.style.display = "none";
+const internalData = {
+    isAugmentedReality: false,
+};
+export const preloading = (isPreloadComplete, isAugmentedReality = false) => {
+    scene.style.display = isPreloadComplete && !isAugmentedReality ? "block" : "none";
+    preload.style.display = isPreloadComplete ? "none" : "block";
+    userVideo.style.display = isPreloadComplete && isAugmentedReality ? "block" : "none";
+    internalData.isAugmentedReality = isAugmentedReality;
 };
 
 export const displayScene = (gameState) => {
@@ -115,11 +124,6 @@ const onClickHandler = (e) => {
         drawGameWin(state());
     }
 };
-
-const t = setInterval( () => {
-    applyGameStage(GameStages.ANIMATING);
-    updateClickListener(false);
-    drawGameWin(state());}, 3000);
 
 const isOverButton = (e, spinButton) => (e.layerX > spinButton.leftOffset
     && e.layerX < spinButton.leftOffset + spinButton.displayWidth

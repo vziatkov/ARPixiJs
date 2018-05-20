@@ -1,4 +1,4 @@
-import { getCoefficientResize } from "../src/Utils";
+import { getCoefficientResize } from "../src/gameSlot/Utils";
 
 describe("Utils/getCoefficientResize", () => {
     const defaultSlotWidth = 400;
