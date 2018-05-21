@@ -11,12 +11,18 @@ const ctx = scene ? scene.getContext("2d") : {};
 
 const internalData = {
     isAugmentedReality: false,
+    soundClick: null,
+    isEnableClick: false,
 };
-export const preloading = (isPreloadComplete, isAugmentedReality = false) => {
+export const preloading = (isPreloadComplete, isAugmentedReality = false, soundClick = null) => {
+    /**
+     * TODO move to css files
+     */
     scene.style.display = isPreloadComplete && !isAugmentedReality ? "block" : "none";
     preload.style.display = isPreloadComplete ? "none" : "block";
     userVideo.style.display = isPreloadComplete && isAugmentedReality ? "block" : "none";
     internalData.isAugmentedReality = isAugmentedReality;
+    internalData.soundClick = soundClick;
 };
 
 export const displayScene = (gameState) => {
@@ -99,6 +105,7 @@ export const roundEnd = (gameState) => {
 };
 
 export const updateClickListener = (isEnable) => {
+    internalData.isEnableClick = isEnable;
     if (isEnable) {
         scene.addEventListener("click", onClickHandler, false);
         scene.addEventListener("mousemove", onMouseMove, false);
@@ -117,11 +124,14 @@ const onMouseMove = (e) => {
     }
 };
 
-const onClickHandler = (e) => {
-    if (isOverButton(e, state().spinButtonAsset)) {
+export const onClickHandler = (e = null) => {
+    if ((!e || isOverButton(e, state().spinButtonAsset)) && internalData.isEnableClick) {
         applyGameStage(GameStages.ANIMATING);
         updateClickListener(false);
         drawGameWin(state());
+        if (internalData.soundClick) {
+            internalData.soundClick.play();
+        }
     }
 };
 

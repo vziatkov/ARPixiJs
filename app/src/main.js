@@ -1,5 +1,5 @@
 import { loadImage, httpGet } from "./gameSlot/Transport";
-import { preloading, drawSpinButton, displayScene, drawReels, updateClickListener, roundEnd } from "./gameSlot/View";
+import { preloading, drawSpinButton, displayScene, drawReels, updateClickListener, roundEnd, onClickHandler } from "./gameSlot/View";
 import {
     applyLoadedSettings,
     state,
@@ -12,10 +12,19 @@ import {
     GameStages,
     applyCallBackRoundEnd,
 } from "./gameSlot/State";
+import { createSound } from "./gameSlot/SoundManager";
 
 import { PixiApp } from "./augmentedReality/PixiApp";
 import { createMarkerDetector, setupMarkerDetector } from "./augmentedReality/MarkerDetector";
 import { createVideo } from "./augmentedReality/Video";
+
+const files = {
+    gameSetting: "/resources/settings.json",
+    imagePath: (imageName) => `/resources/${imageName}`,
+    cameraData: "resources/camera_para.dat",
+    markerPath: "./resources/marker32.pat",
+    soundPath: "resources/soundClick.mp3",
+};
 
 
 const logError = (error, details = "") => {
@@ -28,11 +37,11 @@ const logError = (error, details = "") => {
 const setupGame = async () => {
     const symbolsImages = [];
     preloading(false);
-    applyLoadedSettings(await httpGet("/resources/settings.json").then(response => (response.status === 200 ? response.json() : null)));
+    applyLoadedSettings(await httpGet(files.gameSetting).then(response => (response.status === 200 ? response.json() : null)));
     applySlotSizeState();
     applySymbolsToReel();
-    await Promise.all(state().configState.reelSymbols.map(imageName => loadImage(`/resources/${imageName}`)
-        .then(img => symbolsImages.push(img))).concat(loadImage(`/resources/${state().configState.spinButtonImage}`)
+    await Promise.all(state().configState.reelSymbols.map(imageName => loadImage(files.imagePath(imageName))
+        .then(img => symbolsImages.push(img))).concat(loadImage(files.imagePath(state().configState.spinButtonImage))
             .then((img) => {
                 applySpinButton(img);
             }),
@@ -42,15 +51,24 @@ const setupGame = async () => {
     displayScene(state());
     drawSpinButton(state());
     drawReels(state());
+    let isARSetupped = false;
     if(state().configState.isAugmentedReality) {
-        const video = await createVideo(state().configState.slotWidth, state().configState.slotHeight);
-        const pixiApp = new PixiApp(state().configState.slotWidth, state().configState.slotHeight, true);
-        await createMarkerDetector(state().configState.slotWidth, state().configState.slotHeight, 'resources/camera_para.dat')
-            .then((markerDetector) => {
-                setupMarkerDetector(markerDetector, pixiApp, video, "./resources/marker32.pat");
-            });
-    }
-    preloading(true, state().configState.isAugmentedReality);
+        await createVideo(state().configState.slotWidth, state().configState.slotHeight).then(async (setupVideo) => {
+            if(setupVideo) {
+                const pixiApp = new PixiApp(state().configState.slotWidth, state().configState.slotHeight, true, onClickHandler);
+                await createMarkerDetector(state().configState.slotWidth, state().configState.slotHeight, files.cameraData)
+                    .then((markerDetector) => {
+                        setupMarkerDetector(markerDetector, pixiApp, setupVideo, files.markerPath);
+                    });
+                isARSetupped = true;
+            }
+            else {
+                alert("Can't setup augmented reality");
+            }
+        });
+    };
+    const soundClick = await createSound(files.soundPath);
+    preloading(true, isARSetupped, soundClick);
     applyCallBackRedrawReels(drawReels);
     applyCallBackRoundEnd(roundEnd);
     applyGameStage(GameStages.READY);
