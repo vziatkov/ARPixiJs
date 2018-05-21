@@ -10,8 +10,8 @@ const plugins = [
     new webpack.HotModuleReplacementPlugin(),
 ];
 
-function resolve (dir) {
-    return path.join(__dirname, dir)
+function resolve(dir) {
+    return path.join(__dirname, dir);
 }
 
 /**
@@ -19,9 +19,9 @@ function resolve (dir) {
  */
 module.exports = {
     devtool: "inline-source-map",
-    mode: 'development',
+    mode: "development",
     entry: {
-        vendor:["PIXIJS", "PIXIProjection"],
+        vendor: ["PIXIJS", "PIXIProjection"],
         game: ["webpack-hot-middleware/client?reload=true",
             resolve("/../app/src/main.js")],
     },
@@ -35,40 +35,42 @@ module.exports = {
             cacheGroups: {
                 commons: {
                     test: /[\\/]node_modules[\\/]/,
-                    name: 'vendor',
-                    chunks: 'all'
-                }
-            }
-        }
+                    name: "vendor",
+                    chunks: "all",
+                },
+            },
+        },
     },
     node: {
-        fs: "empty"
+        fs: "empty",
     },
     resolve: {
         modules: [
-            resolve('/../dist/'),
-            'node_modules'
+            resolve("/../dist/"),
+            "node_modules",
         ],
         alias: {
             // external libraries
-            "PIXIJS": resolve('./../node_modules/pixi.js/dist/pixi'),
-            "PIXIProjection": resolve('./../node_modules/pixi-projection/dist/pixi-projection')
-        }
+            PIXIJS: resolve("./../node_modules/pixi.js/dist/pixi"),
+            PIXIProjection: resolve("./../node_modules/pixi-projection/dist/pixi-projection"),
+        },
     },
 
     plugins: plugins.concat(sharedPlugins),
     module: {
-        rules: [{
-            test: /^(?!.*\.{test,min}\.js$).*\.js$/,
-            use: "ts-loader",
-            exclude: /node_modules/,
-        },
+        rules: [
+            {
+                test: /^(?!.*\.{test,min}\.js$).*\.js$/,
+                use: "ts-loader",
+                exclude: /node_modules/,
+            },
             {
                 test: /\.css$/,
                 use: [
                     MiniCssExtractPlugin.loader,
-                    "css-loader"
-                ]
-            }],
+                    "css-loader",
+                ],
+            },
+        ],
     },
 };

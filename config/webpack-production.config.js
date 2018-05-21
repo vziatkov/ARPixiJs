@@ -11,7 +11,7 @@ const plugins = [
 
 const config = Object.assign({}, devConfig, {
     devtool: "",
-    mode: 'production',
+    mode: "production",
     entry: [
         path.join(__dirname, "/../app/src/main.js"),
     ],

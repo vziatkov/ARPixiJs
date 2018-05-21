@@ -1,0 +1,58 @@
+{
+  "env": {
+    "browser": true,
+    "node": true,
+    "jest": true
+  },
+  "extends": "airbnb",
+  "rules": {
+    "max-len": [
+      "error",
+      140
+    ],
+    "no-mixed-operators": ["error", {
+      groups: [
+        ["%", "**"],
+        ["%", "+"],
+        ["%", "-"],
+        ["%", "*"],
+        ["%", "/"],
+        ["**", "+"],
+        ["**", "-"],
+        ["**", "*"],
+        ["**", "/"],
+        ["&", "|", "^", "~", "<<", ">>", ">>>"],
+        ["==", "!=", "===", "!==", ">", ">=", "<", "<="],
+        ["&&", "||"],
+        ["in", "instanceof"],
+      ],
+      allowSamePrecedence: false
+    }],
+    "no-use-before-define": [
+      "error",
+      {
+        "functions": false,
+        "classes": false,
+        "variables": false
+      }
+    ],
+    "indent": ["error", 4],
+    "quotes": [
+      "error",
+      "double",
+      {
+        "avoidEscape": true
+      }
+    ],
+    "no-console": [
+      "error",
+      {
+        "allow": [
+          "warn",
+          "error",
+          "info"
+        ]
+      }
+    ]
+  }
+}

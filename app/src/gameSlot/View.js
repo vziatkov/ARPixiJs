@@ -2,6 +2,7 @@ import { state, applyGameStage, GameStages } from "./State";
 import { smoothOriginalImage } from "./Utils";
 import * as style from "./Views.css";
 // TODO investigate why doesn't work
+// eslint-disable-next-line no-console
 console.log(style);
 
 const scene = document.getElementById("slots");

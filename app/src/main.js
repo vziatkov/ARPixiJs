@@ -14,7 +14,7 @@ import {
 } from "./gameSlot/State";
 import { createSound } from "./gameSlot/SoundManager";
 
-import { PixiApp } from "./augmentedReality/PixiApp";
+import { createPIXI, updateViewPT } from "./augmentedReality/PixiApp";
 import { createMarkerDetector, setupMarkerDetector } from "./augmentedReality/MarkerDetector";
 import { createVideo } from "./augmentedReality/Video";
 
@@ -54,20 +54,15 @@ const setupGame = async () => {
     let isARSetupped = false;
     if(state().configState.isAugmentedReality) {
         await createVideo(state().configState.slotWidth, state().configState.slotHeight).then(async (setupVideo) => {
-            if(setupVideo) {
-                const pixiApp = new PixiApp(state().configState.slotWidth, state().configState.slotHeight, true, onClickHandler);
-                await createMarkerDetector(state().configState.slotWidth, state().configState.slotHeight, files.cameraData)
-                    .then((markerDetector) => {
-                        setupMarkerDetector(markerDetector, pixiApp, setupVideo, files.markerPath);
-                    });
-                isARSetupped = true;
-            }
-            else {
-                alert("Can't setup augmented reality");
-            }
-        });
+            createPIXI(state().configState.slotWidth, state().configState.slotHeight, true, onClickHandler);
+            await createMarkerDetector(state().configState.slotWidth, state().configState.slotHeight, files.cameraData)
+                .then((markerDetector) => {
+                    setupMarkerDetector(markerDetector, updateViewPT, setupVideo, files.markerPath);
+                });
+            isARSetupped = true;
+        }).catch(e => alert(e));
     };
-    const soundClick = await createSound(files.soundPath);
+    const soundClick = await createSound(files.soundPath).catch(e => alert(e));
     preloading(true, isARSetupped, soundClick);
     applyCallBackRedrawReels(drawReels);
     applyCallBackRoundEnd(roundEnd);
