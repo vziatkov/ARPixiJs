@@ -63,20 +63,20 @@ export const updateViewPT = (point1, point2, point3, point4) => {
     }
     if (!internalData.created) {
         internalData.squares = [];
-        internalData.squares.push(createPoints(point1[0], point1[1]));
-        internalData.squares.push(createPoints(point2[0], point2[1]));
         internalData.squares.push(createPoints(point3[0], point3[1]));
         internalData.squares.push(createPoints(point4[0], point4[1]));
+        internalData.squares.push(createPoints(point1[0], point1[1]));
+        internalData.squares.push(createPoints(point2[0], point2[1]));
         internalData.pixiStage.ticker.add(() => {
             internalData.containerSprite.proj.mapBilinearSprite(internalData.containerSprite, internalData.squares);
         });
         internalData.created = true;
         return;
     }
-    internalData.squares[0].set(point1[0], point1[1]);
-    internalData.squares[1].set(point2[0], point2[1]);
-    internalData.squares[2].set(point3[0], point3[1]);
-    internalData.squares[3].set(point4[0], point4[1]);
+    internalData.squares[0].set(point3[0], point3[1]);
+    internalData.squares[1].set(point4[0], point4[1]);
+    internalData.squares[2].set(point1[0], point1[1]);
+    internalData.squares[3].set(point2[0], point2[1]);
     internalData.containerSprite.visible = true;
 };
 
