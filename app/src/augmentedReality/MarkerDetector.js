@@ -2,6 +2,7 @@ export const createMarkerDetector = (videoWidth, videoHeight, pathFileParams) =>
     // eslint-disable-next-line
     const detector = new ARController(videoWidth, videoHeight, pathFileParams);
     detector.onload = () => {
+        detector.setPatternDetectionMode(artoolkit.AR_TEMPLATE_MATCHING_MONO);
         resolve(detector);
     };
     detector.onerror = e => reject(e);
