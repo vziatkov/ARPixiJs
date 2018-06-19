@@ -3,6 +3,7 @@ export const createMarkerDetector = (videoWidth, videoHeight, pathFileParams) =>
     const detector = new ARController(videoWidth, videoHeight, pathFileParams);
     detector.onload = () => {
         detector.setPatternDetectionMode(artoolkit.AR_TEMPLATE_MATCHING_MONO);
+        detector.setMatrixCodeType(artoolkit.AR_MATRIX_CODE_3x3);
         resolve(detector);
     };
     detector.onerror = e => reject(e);
