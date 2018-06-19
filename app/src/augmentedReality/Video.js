@@ -3,13 +3,19 @@ export const createVideo = (videoWidth, videoHeight) => new Promise((resolve, re
     const video = document.getElementById("videoElement");
     video.width = videoWidth;
     video.height = videoHeight;
+    let typeCamera = "user";
+    const ua = navigator.userAgent;
 
+    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua)) {
+        typeCamera = "environment";
+    }
     const constraints = {
         audio: false,
         video: {
             width: videoWidth,
             height: videoHeight,
             aspectRatio: videoHeight / videoWidth,
+            facingMode: typeCamera
         },
     };
     /**
